@@ -1,0 +1,37 @@
+/* Jellyfin Cast / Guest Stars - runde Personenbilder, sauberere Version */
+:root {
+  --jf-person-card-width: 166px;
+  --jf-person-image-size: 146px;
+  --jf-person-gap: 18px;
+  --jf-person-font-size: 0.9rem;
+}
+
+#itemDetailPage :is(#castContent, #guestCastContent) .card.overflowPortraitCard.personCard {
+  width: var(--jf-person-card-width) !important;
+  min-width: var(--jf-person-card-width) !important;
+  font-size: var(--jf-person-font-size) !important;
+  margin-right: var(--jf-person-gap) !important;
+}
+
+#itemDetailPage :is(#castContent, #guestCastContent) .cardScalable {
+  width: var(--jf-person-image-size) !important;
+  height: var(--jf-person-image-size) !important;
+  border-radius: 50% !important;
+}
+
+#itemDetailPage :is(#castContent, #guestCastContent) .cardImageContainer,
+#itemDetailPage :is(#castContent, #guestCastContent) .cardOverlayContainer {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+#itemDetailPage :is(#castContent, #guestCastContent) .cardBox,
+#itemDetailPage :is(#castContent, #guestCastContent) .cardPadder,
+#itemDetailPage :is(#castContent, #guestCastContent) .card,
+#itemDetailPage :is(#castContent, #guestCastContent) .cardContainer {
+  overflow: visible !important;
+}
