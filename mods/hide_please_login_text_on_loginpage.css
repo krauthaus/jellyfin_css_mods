@@ -1,0 +1,2 @@
+/* Hide "Please sign in" title, keep from position sane */
+#loginPage .padded-left.padded-right.padded-bottom-page { margin-top: 100px !important; }
