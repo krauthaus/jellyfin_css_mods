@@ -1,0 +1,179 @@
+/* Jellyfin Video Previews (BobHasNoSoul): Overlay an Card-Radius anpassen */
+#preview-overlay {
+  border-radius: var(--rounded-cards, 18px) !important;
+  overflow: hidden !important;
+  /* hilft in Chromium manchmal gegen "eckige" Render-Artefakte */
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+}
+
+#preview-overlay > video {
+  border-radius: inherit !important;
+  overflow: hidden !important;
+}
+
+
+
+/* Card-Wrapper + Hover-Layer auf gleichen Radius zwingen */
+.cardBox,
+.cardScalable,
+.cardPadder,
+.cardOverlayContainer,
+.cardImageContainer,
+.cardContent {
+  border-radius: var(--rounded-cards) !important;
+}
+
+/* Der Hover-Rahmen hängt sehr oft an ::before/::after */
+.cardBox::before,
+.cardBox::after,
+.cardScalable::before,
+.cardScalable::after,
+.cardOverlayContainer::before,
+.cardOverlayContainer::after {
+  border-radius: var(--rounded-cards) !important;
+}
+
+/* Optional aber empfohlen: verhindert “Ecken-Leaks” bei Preview/Overlays */
+.cardBox,
+.cardScalable,
+.cardOverlayContainer,
+.cardImageContainer {
+  overflow: hidden !important;
+}
+
+/* Preview-Video wie "background-size: cover" */
+#preview-overlay {
+  overflow: hidden !important;
+}
+
+#preview-overlay > video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;      /* füllt aus, croppt */
+  object-position: center !important;
+  transform: scale(1.32);            /* leichter Zoom, optional */
+  transform-origin: center;
+}
+
+/* Jellyfish: Card Hover Border dicker machen */
+.cardBox-bottompadded.cardBox > .cardScalable{
+  border-width: 4px !important; /* vorher 2px */
+  border-style: solid !important;
+  border-color: transparent !important; /* Platz reservieren */
+  box-sizing: border-box !important;
+  border-radius: var(--rounded-cards, 24px) !important;
+}
+
+/* Hover-Zustände aus theme.css 1:1 nachbauen, nur dicker */
+div.card-withuserdata.card-hoverable.card:hover > .cardBox-bottompadded.cardBox > .cardScalable,
+div.groupedCard.card-hoverable.overflowSquareCard.card:hover > .cardBox-bottompadded.cardBox > .cardScalable,
+div.card-hoverable.squareCard.card:hover > .cardBox-bottompadded.cardBox > .cardScalable{
+  border-width: 5px !important; /* vorher 2px */
+  border-style: solid !important;
+  border-color: var(--primary-accent-color) !important;
+}
+
+:root{
+  --rounded-cards: 25px;
+  --dp-hover-border: 5px; /* deine dicke Hover-Border */
+}
+
+/* Jellyfish: Border überall konsistent */
+.cardBox-bottompadded.cardBox > .cardScalable{
+  border-width: var(--dp-hover-border) !important;         /* Platz reservieren */
+  border-style: solid !important;
+  border-color: transparent !important;
+  box-sizing: border-box !important;
+  border-radius: var(--rounded-cards) !important;
+}
+
+/* Hover: nur Farbe ändern (Dicke bleibt gleich, kein “Springen”) */
+div.card-withuserdata.card-hoverable.card:hover > .cardBox-bottompadded.cardBox > .cardScalable,
+div.groupedCard.card-hoverable.overflowSquareCard.card:hover > .cardBox-bottompadded.cardBox > .cardScalable,
+div.card-hoverable.squareCard.card:hover > .cardBox-bottompadded.cardBox > .cardScalable{
+  border-color: var(--primary-accent-color, #ff3055) !important;
+}
+
+/* Preview-Overlay: Innenradius verwenden (Radius - Border) */
+#preview-overlay{
+  border-radius: calc(var(--rounded-cards) - var(--dp-hover-border)) !important;
+  overflow: hidden !important;
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+}
+
+#preview-overlay > video{
+  border-radius: inherit !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: scale(1.32);
+  transform-origin: center;
+}
+
+
+
+
+/* =========================================
+   Preview-Overlay mit großem Playbutton
+   + kleinem BR-Button unten rechts
+   ========================================= */
+
+#preview-overlay {
+  position: absolute !important;
+  z-index: 100 !important;
+  pointer-events: none !important;
+}
+
+/* ::before malt ALLE Kreise/Buttons */
+#preview-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background-repeat: no-repeat !important;
+  background-image:
+    /* großer roter Kreis in der Mitte */
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 48, 85, 0.96) 0 2.2rem,
+      transparent 2.21rem
+    ),
+
+    /* kleiner dunkler Kreis unten rechts */
+    radial-gradient(
+      circle at calc(100% - 1.6rem) calc(100% - 1.6rem),
+      rgba(0, 0, 0, 0.58) 0 1.05rem,
+      rgba(255,255,255,0.10) 1.06rem 1.14rem,
+      transparent 1.15rem
+    ),
+
+    /* drei kleine weiße Punkte */
+radial-gradient(circle at calc(100% - 1.96rem) calc(100% - 1.6rem), #fff 0 0.14rem, transparent 0.15rem),
+radial-gradient(circle at calc(100% - 1.60rem) calc(100% - 1.6rem), #fff 0 0.14rem, transparent 0.15rem),
+radial-gradient(circle at calc(100% - 1.24rem) calc(100% - 1.6rem), #fff 0 0.14rem, transparent 0.15rem);
+
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.45));
+}
+
+/* weißes Play-Dreieck in der Mitte */
+#preview-overlay::after {
+  content: "";
+  position: absolute;
+  left: calc(50% + 0.18rem);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 0.85rem solid transparent;
+  border-bottom: 0.85rem solid transparent;
+  border-left: 1.35rem solid #fff;
+  pointer-events: none;
+  z-index: 3;
+}
+
+:root {
+  --skip-hide-duration: 8s;
+}
