@@ -1,0 +1,227 @@
+/* =========================
+   Jellyfin Floating Player
+   Modern Glass / Neon Style
+   ========================= */
+
+:root {
+    --player-bg: rgba(10, 10, 14, 0.72);
+    --player-bg-2: rgba(20, 20, 28, 0.58);
+    --player-border: rgba(255, 255, 255, 0.10);
+    --player-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    --player-glow: 0 0 30px rgba(255, 60, 120, 0.12);
+    --player-radius: 22px;
+    --accent: #ff2f70;
+    --accent-2: #7c4dff;
+    --text-main: rgba(255, 255, 255, 0.96);
+    --text-soft: rgba(255, 255, 255, 0.68);
+}
+
+/* Platz schaffen, damit der Player nichts überdeckt */
+.skinBody {
+    padding-bottom: 120px !important;
+}
+
+/* Gesamter Player */
+.nowPlayingBar {
+    position: fixed;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    width: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: var(--player-radius);
+    overflow: hidden;
+    z-index: 1000;
+
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+        linear-gradient(135deg, var(--player-bg), var(--player-bg-2)) !important;
+
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+    border: 1px solid var(--player-border);
+    box-shadow: var(--player-shadow), var(--player-glow);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+/* Dezenter Hover-Lift */
+.nowPlayingBar:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 26px 48px rgba(0, 0, 0, 0.50),
+        0 0 38px rgba(255, 47, 112, 0.16);
+}
+
+/* Schimmer-Layer */
+.nowPlayingBar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,0.10) 0%,
+            rgba(255,255,255,0.03) 22%,
+            rgba(255,255,255,0.00) 45%
+        );
+    opacity: 0.8;
+}
+
+/* Oberer Farbakzent */
+.nowPlayingBar::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    top: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    opacity: 0.95;
+    box-shadow: 0 0 14px rgba(255, 47, 112, 0.55);
+}
+
+/* Innere Container etwas luftiger */
+.nowPlayingBar > div,
+.nowPlayingBar .nowPlayingBarTop,
+.nowPlayingBar .nowPlayingBarBottom {
+    position: relative;
+    z-index: 1;
+}
+
+/* Album-Cover schöner */
+.nowPlayingBar img,
+.nowPlayingBar .cardImage,
+.nowPlayingBar .listItemImage {
+    border-radius: 14px !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Titel / Künstler */
+.nowPlayingBar .nowPlayingBarTextContainer,
+.nowPlayingBar .secondaryText,
+.nowPlayingBar .mediaInfoText,
+.nowPlayingBar .songName,
+.nowPlayingBar .artistName {
+    color: var(--text-main) !important;
+}
+
+.nowPlayingBar .secondaryText,
+.nowPlayingBar .artistName,
+.nowPlayingBar .mediaInfoText {
+    color: var(--text-soft) !important;
+}
+
+/* Buttons moderner */
+.nowPlayingBar button,
+.nowPlayingBar .iconButton {
+    border-radius: 14px !important;
+    transition:
+        transform 0.18s ease,
+        background-color 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease;
+}
+
+.nowPlayingBar button:hover,
+.nowPlayingBar .iconButton:hover {
+    transform: translateY(-1px) scale(1.04);
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+/* Play/Pause hervorheben */
+.nowPlayingBar .playstatebutton,
+.nowPlayingBar .btnPause,
+.nowPlayingBar .btnPlay {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+    color: #fff !important;
+    border-radius: 16px !important;
+    box-shadow:
+        0 8px 20px rgba(255, 47, 112, 0.28),
+        0 0 18px rgba(124, 77, 255, 0.18);
+}
+
+.nowPlayingBar .playstatebutton:hover,
+.nowPlayingBar .btnPause:hover,
+.nowPlayingBar .btnPlay:hover {
+    transform: translateY(-1px) scale(1.05);
+    box-shadow:
+        0 12px 24px rgba(255, 47, 112, 0.34),
+        0 0 22px rgba(124, 77, 255, 0.24);
+}
+
+/* Progressbar / Slider allgemein */
+.nowPlayingBar input[type="range"],
+.nowPlayingBar .mdl-slider,
+.nowPlayingBar .sliderContainer {
+    accent-color: var(--accent);
+}
+
+/* Falls Jellyfin die MDC/MDL Slider-Klassen nutzt */
+.nowPlayingBar .mdl-slider-background-lower,
+.nowPlayingBar .mdc-slider__track--active_fill,
+.nowPlayingBar .sliderTrackFill {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2)) !important;
+    box-shadow: 0 0 10px rgba(255, 47, 112, 0.35);
+}
+
+.nowPlayingBar .mdl-slider-background-upper,
+.nowPlayingBar .mdc-slider__track--inactive,
+.nowPlayingBar .sliderTrack {
+    background: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Slider-Knopf */
+.nowPlayingBar .mdc-slider__thumb-knob,
+.nowPlayingBar .mdl-slider-background-lower::after,
+.nowPlayingBar .sliderBubble {
+    background: #fff !important;
+    box-shadow:
+        0 0 0 4px rgba(255, 47, 112, 0.18),
+        0 4px 10px rgba(0,0,0,0.30);
+}
+
+/* Zeitangaben lesbarer */
+.nowPlayingBar .currentTime,
+.nowPlayingBar .runTimeTicks,
+.nowPlayingBar .mediaSourceIndicator,
+.nowPlayingBar .sliderBubble,
+.nowPlayingBar .playbackProgressText {
+    color: var(--text-soft) !important;
+    font-weight: 500;
+}
+
+/* Volume-Bereich etwas cleaner */
+.nowPlayingBar .volumeSliderContainer,
+.nowPlayingBar .audioPlayerVolumeContainer {
+    padding: 0 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+}
+
+/* Mobile: weniger breit, mehr kompakt */
+@media (max-width: 768px) {
+    .skinBody {
+        padding-bottom: 140px !important;
+    }
+
+    .nowPlayingBar {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border-radius: 18px;
+    }
+
+    .nowPlayingBar::after {
+        left: 12px;
+        right: 12px;
+    }
+}
